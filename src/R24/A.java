@@ -1,3 +1,4 @@
+package R24;
 import static java.lang.Math.*;
 import static java.util.Arrays.*;
 import static java.util.Collections.*;
@@ -7,7 +8,7 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
  
-public class Main {
+public class A {
 //    private static final String INPUT_PATH = "C:\\atcoder\\b_008_004.txt";
     private static final String INPUT_PATH = null;
 
@@ -16,32 +17,28 @@ public class Main {
             br = new BufferedReader(new InputStreamReader(
                     INPUT_PATH == null ? System.in : new FileInputStream(new File(INPUT_PATH))));
             
-            int N = readBufInt(); int K = readBufInt();
-            char[] S = br.readLine().toCharArray();
-            int[] iCount = new int[26];
+            int L = readBufInt();
+            int R = readBufInt();
             
-            // 文字列の並び, 文字列を後ろから検索した際の一番初めのインデックス
-            HashMap<String, Integer> map = new HashMap<String, Integer>();
-
-            for (int i = N - 1; i >= 0; i--) {
-                iCount[S[i] - 'a']++;
-
-                if (N - i > K) iCount[S[i + K] - 'a']--;
-
-                if (N - i >= K) {
-                    String key = Arrays.toString(iCount);
-                    if (!map.containsKey(key)) {
-                        map.put(key, i);
-                    } else {
-                        if (map.get(key) - i >= K) {
-                            pw.println("YES");
-                            return;
-                        }
-                    }
-                }
+            int[] lCntArray = new int[41];
+            int[] rCntArray = new int[41];
+ 
+            int[] lRestArray = readIntArray();
+            for (int l : lRestArray) {
+                lCntArray[l]++;
             }
-
-            pw.println("NO");
+ 
+            int[] rRestArray = readIntArray();
+            for (int r : rRestArray) {
+                rCntArray[r]++;
+            }
+            
+            int sum = 0;
+            for (int i = 10; i <= 40; i++) {
+                sum += (int) Math.min(lCntArray[i], rCntArray[i]);
+            }
+            
+            pw.println(sum);
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
@@ -51,12 +48,6 @@ public class Main {
         }
     }
 
-    boolean deepEquals(char[] i1, char[] i2) {
-        if (i1.length != i2.length) return false;
-        for (int i = 0 ; i < i1.length; i++) if (i1[i] != i2[i]) return false;
-        return true;
-    }
-    
     boolean deepEquals(int[] i1, int[] i2) {
         if (i1.length != i2.length) return false;
         for (int i = 0 ; i < i1.length; i++) if (i1[i] != i2[i]) return false;
@@ -177,7 +168,7 @@ public class Main {
 
     public static void main(String[] args) {
         long from = System.currentTimeMillis();
-        Main app = new Main();
+        A app = new A();
 
         app.solve();
         pw.flush();
