@@ -1,5 +1,4 @@
 
-
 import static java.util.Arrays.deepToString;
 
 import java.io.BufferedReader;
@@ -11,43 +10,43 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
  
-public class Main {
+public class CopyOfMain {
     private static final boolean isDebug = false;
 
     int N ;
     
+    boolean[][] friends;
+    int[][] flow;
+    boolean[] loopChecked;
     void solve() throws Throwable {
         startTime = System.currentTimeMillis();
         
         int a = readBufInt();
         int b = readBufInt();
+        int c = readBufInt();
+        int d = readBufInt();
+
+        int[][] ar = new int[b][];
+        for (int i = 0; i < b; i++) {
+            ar[i] = readIntArray();
+        }
         
-        int[][] choko = new int[a][];
+        int[][] choko = new int[a + 1][];
         for (int i = 0; i < a; i++) {
             choko[i] = readIntArray();
         }
-
-        int max = 0;
-
-        for (int i = 0; i < a; i++) {
-            for (int j = 0; j < b; j++) {
-                int[] dp = new int[b + 1];
-                for (int k = 0; k + i < a; k++) {
-                    int line = 0; 
-                    for (int l = 0; l + j < b; l++) {
-                        boolean isEven = (i + k + j + l) % 2 == 0;
-                        int now = choko[i + k ][j + l];
-                        now = isEven ? now : -now;
-                        line += now; 
-                        dp[l] = dp[l] + line ;
-                        if (dp[l] == 0) {
-                            max = Math.max(max, (k + 1) * (l + 1));
-                        }
-                    }
-                }
+        
+        int sum = 0;
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] < b[i]) {
+                sum += b[i];
+            } else {
+                sum += a[i];
             }
         }
-        pw.println(max);
+        
+        pw.println(sum);
+        
     }    
     
     private static long gcd(long n1, long n2) {
@@ -113,7 +112,7 @@ public class Main {
   }
     static long startTime;
     public static void main(String[] args) {
-        Main app = new Main();
+        CopyOfMain app = new CopyOfMain();
         try {
             app.br = new BufferedReader(new InputStreamReader(System.in));
             app.solve();
