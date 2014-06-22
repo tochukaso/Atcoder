@@ -1,3 +1,4 @@
+package B11;
 
 
 import static java.util.Arrays.deepToString;
@@ -14,20 +15,83 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
  
-public class Main {
+public class D {
     private static final boolean isDebug = false;
 
     int N ;
     
+    static class Pascale {
+        
+        
+        static BigDecimal[][] probability = new BigDecimal[1010][1010];
+        
+        static {
+           //probability[0] = new double[1]l;
+            for (int i = 0; i < probability.length; i++) {
+                Arrays.fill(probability[i], BigDecimal.ZERO);
+            }
+           probability[0][0] = BigDecimal.ONE;
+           for (int i = 1; i < probability.length; i++) {
+              //probability[i] = new double[i + 1];
+              probability[i][0] = BigDecimal.ONE;
+              probability[i][i] = BigDecimal.ONE;
+              for (int j = 1; j < i ; j++) {
+                  probability[i][j] = probability[i - 1][j - 1].add(probability[i - 1][j]);
+              }
+           }
+            
+        }
+        
+        static BigDecimal calc(int cnt, int pCnt) {
+            BigDecimal allCnt = new BigDecimal(2).pow(cnt); 
+            BigDecimal elementCnt = probability[cnt][pCnt]; 
+            BigDecimal p = elementCnt.divide(allCnt, MathContext.DECIMAL128);
+            return p;
+        }
+    }
     
     /**
      * @throws Throwable
      */
     void solve() throws Throwable {
         startTime = System.currentTimeMillis();
+        Scanner sc = new Scanner(System.in);
         
-        N = readBufInt();
-        pw.println(N);
+        int N = sc.nextInt();
+        int D = sc.nextInt();
+        
+        int X = sc.nextInt();
+        int Y = sc.nextInt();
+        
+        if (X % D != 0 || Y % D != 0) {
+            pw.println(0);
+            return;
+        }
+       
+        X = Math.abs(X / D);
+        Y = Math.abs(Y / D);
+         
+        BigDecimal res = BigDecimal.ZERO;
+        for (int i = X; i <= N; i++) {
+            
+            // iは上下方向への総移動回数
+            // moveXCntは目的方向への移動回数
+            int moveXCnt = (i - X);
+            if (moveXCnt %2 !=0) {
+                // 目的方向への移動後に余った移動回数が偶数でない場合に目的地に戻れないのでコンテニューする
+                continue;
+            }
+            moveXCnt = moveXCnt / 2 + X;
+
+            int moveYCnt = (N - i - Y);
+            if (moveYCnt < 0 || moveYCnt %2 !=0) {
+                continue;
+            }
+            moveYCnt = moveYCnt / 2 + Y;
+            res = res.add(Pascale.calc(N, i).multiply(Pascale.calc(i, moveXCnt).multiply(Pascale.calc(N - i, moveYCnt))));
+        }
+        
+        pw.println(res);
     }    
     
     final void printMatrix(double[][] p) {
@@ -102,7 +166,7 @@ public class Main {
   }
     static long startTime;
     public static void main(String[] args) {
-        Main app = new Main();
+        D app = new D();
         try {
             app.br = new BufferedReader(new InputStreamReader(System.in));
             app.solve();

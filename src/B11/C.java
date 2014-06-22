@@ -1,3 +1,5 @@
+package B11;
+
 
 import static java.util.Arrays.deepToString;
 
@@ -6,47 +8,61 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.StringTokenizer;
  
-public class CopyOfMain {
+public class C {
     private static final boolean isDebug = false;
 
     int N ;
     
-    boolean[][] friends;
-    int[][] flow;
-    boolean[] loopChecked;
+    
     void solve() throws Throwable {
         startTime = System.currentTimeMillis();
+        String NO = "NO" ;
+        String YES = "YES";
         
-        int a = readBufInt();
-        int b = readBufInt();
-        int c = readBufInt();
-        int d = readBufInt();
-
-        int[][] ar = new int[b][];
-        for (int i = 0; i < b; i++) {
-            ar[i] = readIntArray();
+        int N = readInt();
+        int[] ng = new int[3];
+        for(int i = 0; i < 3; i++) {
+            ng[i] = readInt();
+            if (ng[i] == N) {
+                pw.println(NO);
+                return;
+            }
         }
-        
-        int[][] choko = new int[a + 1][];
-        for (int i = 0; i < a; i++) {
-            choko[i] = readIntArray();
-        }
-        
-        int sum = 0;
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] < b[i]) {
-                sum += b[i];
-            } else {
-                sum += a[i];
+        int now = N; 
+        for (int i = 0; i < 100; i++) {
+            boolean isRoopUpdate = false;
+            for (int j = 3; j > 0; j--) {
+                boolean isUpdate = true;
+                int koho = now - j;
+                if (koho < 0) continue;
+                for(int n : ng) {
+                    if (koho == n) {
+                        isUpdate = false;
+                        break;
+                    }
+                }
+                
+                if (isUpdate) {
+                   if (koho == 0) {
+                       pw.println(YES);
+                       return; 
+                   }
+                   now = koho; 
+                   isRoopUpdate = true;
+                   break;
+                }
+            }
+            
+            if (!isRoopUpdate) {
+                break;
             }
         }
         
-        pw.println(sum);
-        
+        pw.println(NO);
     }    
     
     private static long gcd(long n1, long n2) {
@@ -112,7 +128,7 @@ public class CopyOfMain {
   }
     static long startTime;
     public static void main(String[] args) {
-        CopyOfMain app = new CopyOfMain();
+        C app = new C();
         try {
             app.br = new BufferedReader(new InputStreamReader(System.in));
             app.solve();
