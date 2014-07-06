@@ -1,3 +1,4 @@
+package kupc;
 
 
 import static java.util.Arrays.deepToString;
@@ -7,25 +8,34 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
  
-public class Main {
+public class A {
     private static final boolean isDebug = false;
     
+    int N ;
+
+    int[] pos;
+    
+    int min = 10000;
     void solve() throws Throwable {
         startTime = System.currentTimeMillis();
-      
-        String s1 = br.readLine();
-        int d1 = Integer.parseInt(br.readLine());
-        String s2 = br.readLine();
-        int d2 = Integer.parseInt(br.readLine());
         
-        int N = s1.length();
+        pos = new int[3];
+        for (int i = 0; i < 3 ; i++) {
+            pos[i] = readBufInt();
+        }
+        int[] t = new int[3];
+        for (int i = 0; i < 3 ; i++) {
+            t[i] = readBufInt();
+        }
         
-     
+        permutationAll(t);
+        
+        pw.println(min);
     }    
     
     final void printMatrix(double[][] p) {
@@ -100,7 +110,7 @@ public class Main {
   }
     static long startTime;
     public static void main(String[] args) {
-        Main app = new Main();
+        A app = new A();
         try {
             app.br = new BufferedReader(new InputStreamReader(System.in));
             app.solve();
@@ -146,6 +156,12 @@ public class Main {
 
     void permutation(int[] elements, int nowCnt, int totalCnt) {
         if (nowCnt == totalCnt) { 
+            int sum = 0;
+            for(int i = 0; i < 3; i++) {
+               sum += Math.abs(elements[i] - pos[i]) ;
+            }
+            
+            min = Math.min(min, sum);
             // TODO insertCode
         } else {
 

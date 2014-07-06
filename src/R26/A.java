@@ -1,3 +1,4 @@
+package R26;
 
 
 import static java.util.Arrays.deepToString;
@@ -6,26 +7,36 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.Scanner;
 import java.util.StringTokenizer;
  
-public class Main {
+public class A {
     private static final boolean isDebug = false;
+
+    int N ;
     
+    
+    /**
+     * @throws Throwable
+     */
     void solve() throws Throwable {
         startTime = System.currentTimeMillis();
-      
-        String s1 = br.readLine();
-        int d1 = Integer.parseInt(br.readLine());
-        String s2 = br.readLine();
-        int d2 = Integer.parseInt(br.readLine());
         
-        int N = s1.length();
+        N = readBufInt();
+        int A = readBufInt();
+        int B = readBufInt();
         
-     
+        int sum = 0;
+        
+        sum += (int) Math.min(5, N) * B;
+        
+        sum += (int) Math.max(0, N - 5) * A;
+        pw.println(sum);
     }    
     
     final void printMatrix(double[][] p) {
@@ -100,7 +111,7 @@ public class Main {
   }
     static long startTime;
     public static void main(String[] args) {
-        Main app = new Main();
+        A app = new A();
         try {
             app.br = new BufferedReader(new InputStreamReader(System.in));
             app.solve();
@@ -131,35 +142,6 @@ public class Main {
 
    BufferedReader br = null;
    static PrintWriter pw = new PrintWriter(System.out);
-
    
-    void permutationAll(int[] p) {
-        permutation(p, 0, p.length - 1);
-    }
-
-    void permutationRange(int from, int to) {
-        int cnt = to - from + 1;
-        int[] elements = new int[cnt];
-        for (int i = 0 ; i <  cnt; i++) elements[i] = from++;
-        permutation(elements, 0, cnt - 1);
-    }
-
-    void permutation(int[] elements, int nowCnt, int totalCnt) {
-        if (nowCnt == totalCnt) { 
-            // TODO insertCode
-        } else {
-
-            for (int i = nowCnt; i <= totalCnt; i++) {
-                int tmp = elements[nowCnt]; 
-                elements[nowCnt] = elements[i]; 
-                elements[i] = tmp;
-                permutation(elements, nowCnt+1, totalCnt);
-                tmp = elements[nowCnt]; 
-                elements[nowCnt] = elements[i]; 
-                elements[i] = tmp;
-            }
-        }
-    }
-
 
 }

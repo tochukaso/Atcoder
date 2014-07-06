@@ -1,3 +1,4 @@
+package R26;
 
 
 import static java.util.Arrays.deepToString;
@@ -6,26 +7,50 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.Scanner;
 import java.util.StringTokenizer;
  
-public class Main {
+public class B {
     private static final boolean isDebug = false;
+
+    int N ;
     
+    String P = "Perfect"; 
+    String D = "Deficient"; 
+    String A = "Abundant"; 
+    /**
+     * @throws Throwable
+     */
     void solve() throws Throwable {
         startTime = System.currentTimeMillis();
-      
-        String s1 = br.readLine();
-        int d1 = Integer.parseInt(br.readLine());
-        String s2 = br.readLine();
-        int d2 = Integer.parseInt(br.readLine());
         
-        int N = s1.length();
+        long N = readLong();
+        if ( N == 1) {
+            pw.println(D);
+            return;
+        }
+        long sum = 1;
+        long max = (long)Math.sqrt(N);
         
-     
+        for (int i = 2; i <= max; i++ ) {
+            if (N % i == 0) {
+               sum += i;
+               if (i != N / i) 
+               sum += (N / i) ;
+            }
+        }
+        if (sum == N) {
+            pw.println(P);
+        } else if (sum > N) {
+            pw.println(A);
+        } else {
+            pw.println(D);
+        }
     }    
     
     final void printMatrix(double[][] p) {
@@ -100,7 +125,7 @@ public class Main {
   }
     static long startTime;
     public static void main(String[] args) {
-        Main app = new Main();
+        B app = new B();
         try {
             app.br = new BufferedReader(new InputStreamReader(System.in));
             app.solve();
@@ -131,35 +156,6 @@ public class Main {
 
    BufferedReader br = null;
    static PrintWriter pw = new PrintWriter(System.out);
-
    
-    void permutationAll(int[] p) {
-        permutation(p, 0, p.length - 1);
-    }
-
-    void permutationRange(int from, int to) {
-        int cnt = to - from + 1;
-        int[] elements = new int[cnt];
-        for (int i = 0 ; i <  cnt; i++) elements[i] = from++;
-        permutation(elements, 0, cnt - 1);
-    }
-
-    void permutation(int[] elements, int nowCnt, int totalCnt) {
-        if (nowCnt == totalCnt) { 
-            // TODO insertCode
-        } else {
-
-            for (int i = nowCnt; i <= totalCnt; i++) {
-                int tmp = elements[nowCnt]; 
-                elements[nowCnt] = elements[i]; 
-                elements[i] = tmp;
-                permutation(elements, nowCnt+1, totalCnt);
-                tmp = elements[nowCnt]; 
-                elements[nowCnt] = elements[i]; 
-                elements[i] = tmp;
-            }
-        }
-    }
-
 
 }

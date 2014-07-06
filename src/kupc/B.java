@@ -1,3 +1,4 @@
+package kupc;
 
 
 import static java.util.Arrays.deepToString;
@@ -12,20 +13,46 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
  
-public class Main {
+public class B {
     private static final boolean isDebug = false;
     
     void solve() throws Throwable {
         startTime = System.currentTimeMillis();
-      
-        String s1 = br.readLine();
-        int d1 = Integer.parseInt(br.readLine());
-        String s2 = br.readLine();
-        int d2 = Integer.parseInt(br.readLine());
+       
+        Set<Integer> set = new HashSet<Integer>();
         
-        int N = s1.length();
+        for (int i = 2; i <= 1000; i++) {
+            set.add(i);
+        }
         
-     
+        for (int i = 2; i <= 1000; i++) {
+            if (set.contains(i)) {
+                System.out.println("? " + i);
+                boolean isDiv = br.readLine().equals("Y");
+                
+                for (int j = 2; j <= 1000; j++) {
+                    if (isDiv) {
+                        if(j % i != 0) {
+                            set.remove(j) ;
+                        }
+                    } else {
+                        if(j % i == 0) {
+                            set.remove(j);
+                        }
+                    }
+                }
+            }
+        }
+        
+        if (set.size() == 1) {
+           pw.println("! " + set.toArray()[0]) ;
+        } else {
+            pw.println("! 1");
+        }
+        
+        for (int i : set) {
+            pw.print(i + " ") ;
+        }
     }    
     
     final void printMatrix(double[][] p) {
@@ -100,7 +127,7 @@ public class Main {
   }
     static long startTime;
     public static void main(String[] args) {
-        Main app = new Main();
+        B app = new B();
         try {
             app.br = new BufferedReader(new InputStreamReader(System.in));
             app.solve();
