@@ -74,11 +74,11 @@ public class D {
         BigDecimal res = BigDecimal.ZERO;
         for (int i = X; i <= N; i++) {
             
-            // i�͏㉺�����ւ̑��ړ���
-            // moveXCnt�͖ړI�����ւ̈ړ���
+            // iは上下方向への総移動回数
+            // moveXCntは目的方向への移動回数
             int moveXCnt = (i - X);
             if (moveXCnt %2 !=0) {
-                // �ړI�����ւ̈ړ���ɗ]�����ړ��񐔂������łȂ��ꍇ�ɖړI�n�ɖ߂�Ȃ��̂ŃR���e�j���[����
+                // 目的方向への移動後に余った移動回数が偶数でない場合に目的地に戻れないのでコンテニューする
                 continue;
             }
             moveXCnt = moveXCnt / 2 + X;

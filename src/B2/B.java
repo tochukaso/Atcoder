@@ -1,3 +1,4 @@
+package B2;
 
 
 import static java.util.Arrays.deepToString;
@@ -11,45 +12,35 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
-
-public class Main {
+ 
+public class B {
     private static final boolean isDebug = false;
-
+    
     void solve() throws Throwable {
         startTime = System.currentTimeMillis();
-       
-        int[] array = readIntArray();
         
-        int[][] human = readIntMatrix(array[1]);
-        
-        
-        UnionFind uf = new UnionFind(array[0] + 1);
-        
-        for (int[] h : human) {
-            uf.union(h[0], h[1]);
-        }
-        
-        int max = 0;
-        for(int i = 1; i <= array[0]; i++) {
-            int sum = 0;
-            for (int j = 0; j <= array[0]; j++) {
-                if (uf.isSameParent(i, j)) sum++;
+        char[] array = readCharArray();
+        for(char c : array) {
+            if(c == 'a' || c == 'i' || c == 'u' || c == 'e' || c == 'o') {
+                continue;
             }
-            max = Math.max(max, sum);
+            pw.print(c);
+            
         }
-        
-        pw.println(max);
-    }    
+        pw.println();
 
+     
+    }    
+    
     final void printMatrix(double[][] p) {
         for (double[] i : p) printArray(i);
     }
-
+    
     final void printArray(double[] p) {
         for (double i : p) System.out.print(i + " ");
         System.out.println();
     }
-
+    
     private static long gcd(long n1, long n2) {
         return (n2 == 0)?n1:gcd(n2, n1%n2);
     }
@@ -57,11 +48,11 @@ public class Main {
     private static int gcd(int n1, int n2) {
         return (n2 == 0)?n1:gcd(n2, n1%n2);
     }
-
-
+    
+    
     static long startTime;
     public static void main(String[] args) {
-        Main app = new Main();
+        B app = new B();
         try {
             app.br = new BufferedReader(new InputStreamReader(System.in));
             app.solve();
@@ -75,21 +66,21 @@ public class Main {
         pw.close();
     }
 
-    static final void d(Object ... o) {
-        if (isDebug) pw.println(deepToString(o));
-    }
+   static final void d(Object ... o) {
+       if (isDebug) pw.println(deepToString(o));
+   }
 
-    static final void d(int[][] oA) {
-        for (int[] o : oA) {
-            d(o);
-        }
-    }
-    static final void d(boolean[][] oA) {
-        for (boolean[] o : oA) {
-            d(o);
-        }
-    }
-
+   static final void d(int[][] oA) {
+       for (int[] o : oA) {
+           d(o);
+       }
+   }
+   static final void d(boolean[][] oA) {
+       for (boolean[] o : oA) {
+           d(o);
+       }
+   }
+   
     void permutationAll(int[] p) {
         permutation(p, 0, p.length - 1);
     }
@@ -174,31 +165,31 @@ public class Main {
         } 
         return res;
     }
-
+    
     public final int[][] readIntMatrix(int N) {
         int[][] res = new int[N][];
         for (int i = 0; i < N; i++) {
             res[i] = readIntArray();
         }
-
+            
         return res;
     }
-
+    
     public final char[][] readCharMatrix(int N) {
         char[][] res = new char[N][];
         for (int i = 0; i < N; i++) {
             res[i] = readCharArray();
         }
-
+        
         return res;
     }
 
     public final char[] readCharArray()  {
         String[] s = readStrArray();
         int cnt = s.length;
-        char[] out = new char[cnt];
-        for (int i = 0; i < cnt; i++) out[i] = s[i].charAt(0);
-        return out;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < cnt; i++) sb.append(s[i]);
+        return sb.toString().toCharArray();
     }
 
     public final long[] readLongArray()  {
@@ -208,101 +199,27 @@ public class Main {
         for (int i = 0; i < cnt; i++) out[i] = Long.parseLong(s[i]);
         return out;
     }
-
+    
     public final String readString() {
         return readLine();
     }
 
     public final String[] readStrArray()  {
-        List<String> res = new ArrayList<String>();
-        StringTokenizer st = new StringTokenizer(readLine(), delimiter);
-        while (st.hasMoreTokens()) {
-            res.add(st.nextToken());
-        }
-        return res.toArray(new String[0]);
+      List<String> res = new ArrayList<String>();
+      StringTokenizer st = new StringTokenizer(readLine(), delimiter);
+      while (st.hasMoreTokens()) {
+          res.add(st.nextToken());
+      }
+      return res.toArray(new String[0]);
     }
 
     public void setDelimiter(String delim) {
         this.delimiter = delim;
     }
-
+    
     public String getDelimiter() {
         return this.delimiter;
     }
 
-    /**
-     * UnionFindのデータ構造を実現するクラス
-     * UnionFindは各要素がどの集合に所属しているかを判別するために使用できる
-     *
-     */
-    public static class UnionFind {
-        // 各要素が保持している親のindex
-        private int[] parentArray ;
-
-        // 各要素が保持している木の深さ
-        private int[] rankArray;
-
-        // 要素数
-        private int nodeCount;
-
-        public UnionFind(int totalCount) {
-            this.nodeCount = totalCount;
-            parentArray = new int[totalCount];
-            rankArray = new int[totalCount];
-
-            for (int i = 0; i < totalCount; i++) {
-                parentArray[i] = i;
-                rankArray[i] = 0;
-            }
-        }
-
-        /**
-         * <pre>
-         * 要素検索
-         * インデックスが要素の順番と等しいときは引数の値をそのまま返却する。
-         * インデックスの順番が等しくないときは検索したインデックスリストに
-         * 格納されている番号を元に再度検索を行い、再帰的にインデックス配列の番号を入れ替える。
-         * </pre>
-         * @param nodeIndex
-         * @return
-         */
-        public int findParent(int nodeIndex) {
-            if (parentArray[nodeIndex] == nodeIndex) {
-                return nodeIndex;
-            } else {
-                return parentArray[nodeIndex] = findParent(parentArray[nodeIndex]);
-            }
-        }
-
-        public void union(int node1, int node2) {
-            node1 = findParent(node1);
-            node2 = findParent(node2);
-            if (node1 == node2) {
-                return;
-            }
-
-            if (rankArray[node1] < rankArray[node2]) {
-                parentArray[node1] = node2;
-            } else if (rankArray[node1] > rankArray[node2]) {
-                parentArray[node2] = node1;
-            } else {
-                parentArray[node2] = node1;
-                rankArray[node1]++;
-            }
-
-        }
-
-        public boolean isSameParent(int node1, int node2) {
-            return findParent(node1) == findParent(node2);
-        }
-
-        public int getNodeCount() {
-            return this.nodeCount;
-        }
-        
-        public int getNodeConut(int node) {
-            return rankArray[findParent(node)];
-        }
-    }
 
 }
