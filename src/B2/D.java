@@ -1,3 +1,4 @@
+package B2;
 
 
 import static java.util.Arrays.deepToString;
@@ -12,12 +13,69 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-public class Main {
+public class D {
     private static final boolean isDebug = false;
+    int N = 0;
+    int[][] human = null;
+    boolean[][] graph = null;
+    UnionFind uf = null;
 
     void solve() throws Throwable {
         startTime = System.currentTimeMillis();
+       
+        int[] array = readIntArray();
+        N = array[0];
+        
+        human = readIntMatrix(array[1]);
+        graph = new boolean[N + 1][N + 1];
+            
+        
+        uf = new UnionFind(array[0] + 1);
+        
+        for (int[] h : human) {
+            uf.union(h[0], h[1]);
+            graph[h[0]][h[1]] = true;
+            graph[h[1]][h[0]] = true;
+        }
+        
+        int max = 0;
+        for (int i = 1; i <= N; i++) {
+            max = Math.max(max, dfs(1<<i, 1));
+        }
+        
+        pw.println(max);
     }    
+    
+    int dfs(int S, int v) {
+        if (v == N + 1) {
+            int res = 0;
+            for (int i = 1; i <= N; i++) {
+                if ((S & (1 << i)) > 0) {
+                    res++;
+                }
+            }
+            return res;
+        }
+        boolean isAdd = true;
+        boolean isJ = false;
+        for (int i = 1; i <= N; i++) {
+            if (i == v) continue;
+            if ((S & (1 << i)) > 0) {
+                isJ = true;
+                if(!graph[i][v]) {
+                   isAdd = false;
+                   break;
+                }
+            }
+        } 
+        int res = 0; 
+        if (isAdd && isJ) {
+            int nextS = S | (1 << v);
+            res = dfs(nextS, v + 1);
+        }
+        res = Math.max(res, dfs(S, v + 1));
+        return res;
+    }
 
     final void printMatrix(double[][] p) {
         for (double[] i : p) printArray(i);
@@ -39,7 +97,7 @@ public class Main {
 
     static long startTime;
     public static void main(String[] args) {
-        Main app = new Main();
+        D app = new D();
         try {
             app.br = new BufferedReader(new InputStreamReader(System.in));
             app.solve();
