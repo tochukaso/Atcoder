@@ -15,6 +15,9 @@ import java.util.StringTokenizer;
  
 /**
  * add modify comment.
+ * I conducted bellow commands. 
+ * git config user.name
+ * git config user.email
  */
 public class A {
     
