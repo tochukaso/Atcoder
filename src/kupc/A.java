@@ -13,7 +13,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
  
+/**
+ * add modify comment.
+ */
 public class A {
+    
     private static final boolean isDebug = false;
     
     int N ;
