@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
- * mod comment
+ * modidy comment
  */
 public class Main {
     private static final boolean isDebug = false;
